@@ -1,0 +1,23 @@
+{
+    "name": "rhythmic-form",
+    "private": true,
+    "type": "commonjs",
+    "scripts": {
+        "start": "node rhythmic_gymnastics_form_app.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "docx": "^8.0.0",
+        "dotenv": "^16.4.5",
+        "exceljs": "^4.4.0",
+        "express": "^4.19.2",
+        "express-rate-limit": "^7.2.0",
+        "nodemailer": "^6.9.13"
+    },
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
