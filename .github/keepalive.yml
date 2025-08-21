@@ -2,12 +2,12 @@ name: Keep Render Alive
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # каждые 20 минут
-  workflow_dispatch:         # запуск руками при надобности
+    - cron: "*/20 * * * *"   # каждые 20 минут
+  workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render service
-        run: curl -fsS https://akvarel-rhythmic-form.onrender.com/ > /dev/null
+        run: curl -fsS -o /dev/null https://akvarel-rhythmic-form.onrender.com/health

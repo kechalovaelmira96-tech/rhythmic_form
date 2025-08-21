@@ -51,6 +51,9 @@ const EXCEL_PATH = path.join(DATA_DIR, 'submissions.xlsx');
 const LOGIN_EMAIL = process.env.SMTP_USER;                // arena@akvarel.info
 const FROM_NAME   = process.env.MAIL_FROM_NAME || 'Заявки Турнир';
 
+// Healthcheck endpoint для keep-alive
+app.get('/health', (req, res) => res.send('ok'));
+
 
 // Mail transport
 const transporter = nodemailer.createTransport({
