@@ -52,7 +52,7 @@ const EXCEL_PATH = path.join(DATA_DIR, 'submissions.xlsx');
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT || 587),
-  secure: false,
+  secure: true,
   auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
 });
 const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@example.com';
