@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render service
-        run: curl -fsS https://akvarel-rhythmic-form.onrender.com/health > /dev/null
+        run: curl -fsS https://akvarel-rhythmic-form.onrender.com/ > /dev/null
