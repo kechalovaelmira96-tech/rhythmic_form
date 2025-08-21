@@ -48,6 +48,10 @@ const DATA_DIR = path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
 const EXCEL_PATH = path.join(DATA_DIR, 'submissions.xlsx');
 
+const LOGIN_EMAIL = process.env.SMTP_USER;                // arena@akvarel.info
+const FROM_NAME   = process.env.MAIL_FROM_NAME || 'Заявки Турнир';
+
+
 // Mail transport
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -183,8 +187,11 @@ async function appendToExcel(payload) {
 async function emailDocx(payload, buffer) {
   const safeName = fileSafe(payload.club || 'Заявка');
   const fileName = `Заявка_${safeName}.docx`;
+
   await transporter.sendMail({
-    from: FROM_EMAIL,
+    // В заголовке “From” показываем красивое имя, НО адрес = SMTP_USER
+    from: `"${FROM_NAME}" <${LOGIN_EMAIL}>`,
+
     to: WORK_EMAIL,
     subject: `Заявка: ${payload.club || 'без названия'}`,
     text: [
@@ -195,11 +202,21 @@ async function emailDocx(payload, buffer) {
       `Судья: ${[payload.judge, payload.judgeCategory].filter(Boolean).join(', ') || '-'}`,
       `Участниц: ${payload.participants?.length || 0}`,
     ].join('\n'),
+
     attachments: [
-      { filename: fileName, content: buffer, contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+      {
+        filename: fileName,
+        content: buffer,
+        contentType:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      },
     ],
+
+    // ВАЖНО: конверт SMTP, чтобы MAIL FROM был ровно SMTP_USER
+    envelope: { from: LOGIN_EMAIL, to: WORK_EMAIL },
   });
 }
+
 
 function cell(text, opts = {}) {
   return new TableCell({
